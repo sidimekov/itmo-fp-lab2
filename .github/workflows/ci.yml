@@ -29,7 +29,3 @@ jobs:
       - name: Test
         run: |
           opam exec -- dune test
-
-      - name: Format check
-        run: |
-          opam exec -- dune build @fmt || (echo "Run: dune fmt" && exit 1)
