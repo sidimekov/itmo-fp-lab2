@@ -1,6 +1,5 @@
 (test
  (name avl_set_test)
  (modules avl_set_test)
- (libraries avl_set)
- (flags
-  (:standard -warn-error +a)))
+ (libraries avl_set alcotest qcheck qcheck-alcotest)
+ (flags (:standard -warn-error +a)))
