@@ -7,10 +7,12 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ocaml/setup-ocaml@v3
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: 5.1.1
           dune-cache: true
@@ -18,19 +20,16 @@ jobs:
       - name: Install dependencies
         run: |
           opam update
-          opam install -y dune alcotest qcheck qcheck-alcotest zarith
-
-          # если у тебя есть opam-файлы и хочешь, чтобы тянуло зависимости из них:
-          # opam install . --deps-only --with-test -y || echo "no opam package, skipping"
+          opam install -y dune ocamlformat alcotest qcheck qcheck-alcotest zarith
 
       - name: Build
         run: |
-          dune build
+          opam exec -- dune build
 
       - name: Test
         run: |
-          dune test
+          opam exec -- dune test
 
       - name: Format check
         run: |
-          dune build @fmt || (echo "Run: dune fmt" && exit 1)
+          opam exec -- dune build @fmt || (echo "Run: dune fmt" && exit 1)
