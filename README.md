@@ -194,8 +194,19 @@ union is associative
 `dune test`:
 
 ```
-[OK]        unit: 5 tests passed
-[OK]        properties: 5 tests passed
+ Testing `avl_set'.
+  This run has ID `0BRU4NZN'.
+    [OK]          unit                0   empty.
+    [OK]          unit                1   add/mem.
+    [OK]          unit                2   add no duplicates.
+    [OK]          unit                3   remove.
+    [OK]          unit                4   of_list/to_list.
+    [OK]          properties          0   union empty s = s.
+    [OK]          properties          1   union s empty = s.
+    [OK]          properties          2   union associative.
+    [OK]          properties          3   cardinal (of_list l) <= length l.
+    [OK]          properties          4   union s s = s.
+    [OK]          properties          5   mem x (of_list l) <-> List.mem x l.
 ```
 
 ## Вывод
