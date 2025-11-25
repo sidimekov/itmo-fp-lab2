@@ -48,7 +48,6 @@ let unit_tests =
 open QCheck
 
 let gen_int_set =
-  let open QCheck in
   map IntSet.of_list (list small_int)
 
 (* Свойства моноида: empty — нейтральный элемент для union *)
@@ -66,26 +65,26 @@ let prop_monoid_right_identity =
     (fun s -> IntSet.equal (IntSet.union s IntSet.empty) s)
 
 let gen3_int_set =
-  QCheck.triple gen_int_set gen_int_set gen_int_set
+  triple gen_int_set gen_int_set gen_int_set
 
 let prop_monoid_associativity =
   Test.make
     ~name:"union associative"
     gen3_int_set
     (fun (a, b, c) ->
-      let left = IntSet.union (IntSet.union a b) c in
-      let right = IntSet.union a (IntSet.union b c) in
-      IntSet.equal left right)
+       let left = IntSet.union (IntSet.union a b) c in
+       let right = IntSet.union a (IntSet.union b c) in
+       IntSet.equal left right)
 
 (* Дополнительные свойства множества *)
 
 let prop_cardinal_le_list_length =
   Test.make
     ~name:"cardinal (of_list l) <= length l"
-    (QCheck.list QCheck.small_int)
+    (list small_int)
     (fun l ->
-      let s = IntSet.of_list l in
-      IntSet.cardinal s <= List.length l)
+       let s = IntSet.of_list l in
+       IntSet.cardinal s <= List.length l)
 
 let prop_union_idempotent =
   Test.make
@@ -98,19 +97,20 @@ let prop_mem_of_list =
     ~name:"mem x (of_list l) <-> List.mem x l"
     (pair small_int (list small_int))
     (fun (x, l) ->
-      let s = IntSet.of_list l in
-      IntSet.mem x s = List.mem x l)
+       let s = IntSet.of_list l in
+       IntSet.mem x s = List.mem x l)
+
+(* тут главная правка: каждый тест оборачиваем отдельно *)
 
 let qcheck_tests =
-  QCheck_alcotest.to_alcotest
-    [
-      prop_monoid_left_identity;
-      prop_monoid_right_identity;
-      prop_monoid_associativity;
-      prop_cardinal_le_list_length;
-      prop_union_idempotent;
-      prop_mem_of_list;
-    ]
+  [
+    QCheck_alcotest.to_alcotest prop_monoid_left_identity;
+    QCheck_alcotest.to_alcotest prop_monoid_right_identity;
+    QCheck_alcotest.to_alcotest prop_monoid_associativity;
+    QCheck_alcotest.to_alcotest prop_cardinal_le_list_length;
+    QCheck_alcotest.to_alcotest prop_union_idempotent;
+    QCheck_alcotest.to_alcotest prop_mem_of_list;
+  ]
 
 (* ---------- Запуск тестов ---------- *)
 
