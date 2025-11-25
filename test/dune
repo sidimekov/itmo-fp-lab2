@@ -2,4 +2,5 @@
  (name avl_set_test)
  (modules avl_set_test)
  (libraries avl_set)
- (flags (:standard -warn-error +a)))
+ (flags
+  (:standard -warn-error +a)))
