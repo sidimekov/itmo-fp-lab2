@@ -13,10 +13,15 @@ jobs:
       - uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: 5.1.1
+          dune-cache: true
 
       - name: Install dependencies
         run: |
-          opam install . --deps-only -y
+          opam update
+          opam install -y dune alcotest qcheck qcheck-alcotest zarith
+
+          # если у тебя есть opam-файлы и хочешь, чтобы тянуло зависимости из них:
+          # opam install . --deps-only --with-test -y || echo "no opam package, skipping"
 
       - name: Build
         run: |
