@@ -1,0 +1,4 @@
+(library
+ (name avl_set)
+ (modules avl_set)
+ (flags (:standard -warn-error +a)))
