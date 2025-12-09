@@ -34,6 +34,21 @@ let test_of_list_to_list_sorted () =
   let lst = IntSet.to_list s in
   check (list int) "sorted unique" [ 1; 2; 3 ] lst
 
+let test_min_max () =
+  let s = IntSet.(empty |> add 5 |> add 1 |> add 10) in
+  check int "min_elt" 1 (IntSet.min_elt s)
+  check int "max_elt" 10 (IntSet.max_elt s)
+
+let test_min_max_single () =
+  let s = IntSet.(empty |> add 42) in
+  check int "min_elt single" 42 (IntSet.min_elt s)
+  check int "max_elt single" 42 (IntSet.max_elt s)
+
+let test_min_max_empty () = 
+  let s = IntSet.empty in
+  check_raises "min_elt empty" Not_found (fun () -> ignore (IntSet.min_elt s))
+  check_raises "max_elt empty" Not_found (fun () -> ignore (IntSet.max_elt s))
+
 let unit_tests =
   [
     test_case "empty" `Quick test_empty;
@@ -41,6 +56,9 @@ let unit_tests =
     test_case "add no duplicates" `Quick test_add_no_duplicates;
     test_case "remove" `Quick test_remove;
     test_case "of_list/to_list" `Quick test_of_list_to_list_sorted;
+    test_case "min/max" `Quick test_min_max;
+    test_case "min/max single" `Quick test_min_max_single;
+    test_case "min/max empty" `Quick test_min_max_empty;
   ]
 
 (* Property-based тесты *)

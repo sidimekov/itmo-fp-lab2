@@ -31,6 +31,9 @@ module type S = sig
 
   val to_list : t -> elt list
   val of_list : elt list -> t
+
+  val min_elt : t -> elt
+  val max_elt : t -> elt
 end
 
 module Make (Ord : OrderedType) : S with type elt = Ord.t = struct
@@ -234,4 +237,14 @@ module Make (Ord : OrderedType) : S with type elt = Ord.t = struct
           if c <> 0 then c else loop xs' ys'
     in
     loop la lb
+
+  let rec min_elt = function
+  | Empty -> raise Not_found
+  | Node { left=Empty; value; _ } -> value
+  | Node {left; _} -> min_elt left
+
+  let rec max_elt = function
+  | Empty -> raise Not_found
+  | Node {right = Empty; value; _} -> value
+  | Node {right; _} -> value
 end
