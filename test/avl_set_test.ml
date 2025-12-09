@@ -7,7 +7,7 @@ module IntSet = Avl_set.Make (IntOrd)
 
 open Alcotest
 
-(* ---------- Unit-тесты ---------- *)
+(* Unit-тесты  *)
 
 let test_empty () =
   check bool "empty is empty" true (IntSet.is_empty IntSet.empty)
@@ -43,14 +43,14 @@ let unit_tests =
     test_case "of_list/to_list" `Quick test_of_list_to_list_sorted;
   ]
 
-(* ---------- Property-based тесты (QCheck) ---------- *)
+(* Property-based тесты *)
 
 open QCheck
 
 let gen_int_set =
   map IntSet.of_list (list small_int)
 
-(* Свойства моноида: empty — нейтральный элемент для union *)
+(* Свойства моноида: empty - нейтральный элемент для union *)
 
 let prop_monoid_left_identity =
   Test.make
@@ -100,8 +100,6 @@ let prop_mem_of_list =
        let s = IntSet.of_list l in
        IntSet.mem x s = List.mem x l)
 
-(* тут главная правка: каждый тест оборачиваем отдельно *)
-
 let qcheck_tests =
   [
     QCheck_alcotest.to_alcotest prop_monoid_left_identity;
@@ -112,7 +110,7 @@ let qcheck_tests =
     QCheck_alcotest.to_alcotest prop_mem_of_list;
   ]
 
-(* ---------- Запуск тестов ---------- *)
+(*  Запуск тестов  *)
 
 let () =
   Alcotest.run "avl_set"
