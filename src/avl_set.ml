@@ -240,11 +240,11 @@ module Make (Ord : OrderedType) : S with type elt = Ord.t = struct
 
   let rec min_elt = function
   | Empty -> raise Not_found
-  | Node { left=Empty; value; _ } -> value
-  | Node {left; _} -> min_elt left
+  | Node { left = Empty; value; _ } -> value
+  | Node { left; _ } -> min_elt left
 
   let rec max_elt = function
   | Empty -> raise Not_found
-  | Node {right = Empty; value; _} -> value
-  | Node {right; _} -> value
+  | Node { right = Empty; value; _ } -> value
+  | Node { right; _ } -> max_elt right
 end
