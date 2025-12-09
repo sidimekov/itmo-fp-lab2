@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           opam update
-          opam install -y dune ocamlformat alcotest qcheck qcheck-alcotest zarith
+          opam install -y ocamlformat alcotest qcheck qcheck-alcotest zarith
 
       - name: Build
         run: |
